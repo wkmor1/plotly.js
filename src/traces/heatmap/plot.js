@@ -114,7 +114,7 @@ module.exports = function(gd, plotinfo, cdheatmaps, heatmapLayer) {
         var drawingMethod = 'default';
         if(zsmooth) {
             drawingMethod = zsmooth === 'best' ? 'smooth' : 'fast';
-        } else if(trace._islinear && xGap === 0 && yGap === 0 && supportsPixelatedImage()) {
+        } else if(trace._islinear && xGap === 0 && yGap === 0 && supportsPixelatedImage(gd)) {
             drawingMethod = 'fast';
         }
 

@@ -4,6 +4,9 @@ var constants = require('../constants/pixelated_image');
 var Drawing = require('../components/drawing');
 var Lib = require('../lib');
 
+// @see https://github.com/plotly/plotly.js/issues/6604
+var unsupportedBrowser = !window.navigator.userAgent || Lib.isIE() || Lib.isSafari() || Lib.isIOS();
+
 var _supportsPixelated = null;
 
 /**
@@ -11,17 +14,16 @@ var _supportsPixelated = null;
  *
  * @return {boolean}
  */
-function supportsPixelatedImage() {
+function supportsPixelatedImage(gd) {
+    if(gd._context._exportedPlot) return false;
+
     if(_supportsPixelated !== null) { // only run the feature detection once
         return _supportsPixelated;
     }
 
     _supportsPixelated = false;
 
-    // @see https://github.com/plotly/plotly.js/issues/6604
-    var unsupportedBrowser = Lib.isIE() || Lib.isSafari() || Lib.isIOS();
-
-    if(window.navigator.userAgent && !unsupportedBrowser) {
+    if(!unsupportedBrowser) {
         var declarations = Array.from(constants.CSS_DECLARATIONS).reverse();
 
         var supports = (window.CSS && window.CSS.supports) || window.supportsCSS;
