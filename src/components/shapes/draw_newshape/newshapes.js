@@ -69,8 +69,11 @@ function newShapes(outlines, dragOptions) {
     var editHelpers = dragOptions.editHelpers;
     var modifyItem = (editHelpers || {}).modifyItem;
 
+    // do not include template.layout.shapes in this update
+    var len = shapes.length - gd._fullLayout.template.layout.shapes.length;
+
     var allShapes = [];
-    for(var q = 0; q < shapes.length; q++) {
+    for(var q = 0; q < len; q++) {
         var beforeEdit = gd._fullLayout.shapes[q];
         allShapes[q] = beforeEdit._input;
 
