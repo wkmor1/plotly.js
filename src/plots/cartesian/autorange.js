@@ -81,11 +81,9 @@ function getAutoRange(gd, ax) {
         var rng = Lib.simpleMap(ax.range, ax.r2l);
         axReverse = rng[1] < rng[0];
     }
-    // one-time setting to easily reverse the axis
-    // when plotting from code
+
     if(ax.autorange === 'reversed') {
         axReverse = true;
-        ax.autorange = true;
     }
 
     var rangeMode = ax.rangemode;
