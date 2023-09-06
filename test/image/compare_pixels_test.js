@@ -42,8 +42,11 @@ if(argv._.length === 0) {
 // Build list of mocks to compare
 var allMockList = [];
 var mathjax3;
+var virtualWebgl;
 argv._.forEach(function(pattern) {
-    if(pattern === 'mathjax3') {
+    if(pattern === 'virtual-webgl') {
+        virtualWebgl = true;
+    } else if(pattern === 'mathjax3') {
         mathjax3 = true;
     } else {
         var mockList = getMockList(pattern);
@@ -65,6 +68,12 @@ allMockList = allMockList.filter(function(a) {
         a !== 'mapbox_custom-style'
     );
 });
+
+if(virtualWebgl) {
+    allMockList = allMockList.filter(function(a) {
+        return a.slice(0, 2) === 'gl';
+    });
+}
 
 if(mathjax3) {
     allMockList = [

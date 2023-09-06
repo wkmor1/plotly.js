@@ -33,6 +33,12 @@ if 'mathjax3' in sys.argv or 'mathjax3=' in sys.argv :
     mathjax_version = 3
     print('Kaleido using MathJax v3')
 
+virtual_webgl_version = 0 # i.e. virtual-webgl is not used
+if 'virtual-webgl' in sys.argv or 'virtual-webgl=' in sys.argv :
+    pio.kaleido.scope.virtual_webgl = os.path.join(root, 'node_modules', 'virtual-webgl', 'src', 'virtual-webgl.js')
+    virtual_webgl_version = 1
+    print('Kaleido using virtual-webgl for WebGL v1')
+
 pio.templates.default = 'none'
 pio.kaleido.scope.plotlyjs = os.path.join(root, 'build', 'plotly.js')
 
@@ -47,6 +53,9 @@ if len(args) > 0 :
     allNames = [a for a in args if a in ALL_MOCKS]
 else :
     allNames = ALL_MOCKS
+
+if virtual_webgl_version > 0 and len(allNames) == 0:
+    allNames = [a for a in ALL_MOCKS if a.startswith('gl')]
 
 # gl2d pointcloud and other non-regl gl2d mock(s)
 # must be tested in certain order to work on CircleCI;
